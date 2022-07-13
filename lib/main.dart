@@ -16,7 +16,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       title: 'tus map',
-      theme: ThemeData(scaffoldBackgroundColor: backgroundColor),
+      theme: ThemeData(
+        scaffoldBackgroundColor: backgroundColor,
+        primaryColor: Colors.white
+      ),
       initialRoute: '/',
       getPages: [
         GetPage(name: '/', page: () => Home(), binding: HomePageBinding()),

@@ -36,6 +36,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   get: ^4.6.5
   google_maps_flutter: ^2.1.8
+  flutter_polyline_points: ^1.0.0
 
 dev_dependencies:
   flutter_test:

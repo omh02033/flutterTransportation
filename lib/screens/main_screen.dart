@@ -15,11 +15,28 @@ class _MainState extends State<Main> {
   );
 
   late GoogleMapController _googleMapController;
-   
-  @override
-  void dispose() {
-    _googleMapController.dispose();
-    super.dispose();
+  Marker? _origin;
+  Marker? _destination;
+
+  void addMarker(LatLng pos) {
+    setState(() {
+      if(_origin == null || (_origin != null && _destination != null)) {
+        _origin = Marker(
+          markerId: MarkerId('origin'),
+          infoWindow: InfoWindow(title: 'Origin'),
+          icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
+          position: pos
+        );
+        _destination = null;
+      } else {
+        _destination = Marker(
+          markerId: MarkerId('destination'),
+          infoWindow: InfoWindow(title: 'Destination'),
+          icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue),
+          position: pos
+        );
+      }
+    });
   }
 
   @override
@@ -31,6 +48,11 @@ class _MainState extends State<Main> {
         mapType: MapType.normal,
         initialCameraPosition: _initialCameraPosition,
         onMapCreated: (controller) => _googleMapController = controller,
+        markers: {
+          if(_origin != null) _origin!,
+          if(_destination != null) _destination!
+        },
+        onLongPress: addMarker,
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Theme.of(context).primaryColor,
@@ -38,7 +60,7 @@ class _MainState extends State<Main> {
         onPressed: () => _googleMapController.animateCamera(
           CameraUpdate.newCameraPosition(_initialCameraPosition)
         ),
-        child: Icon(Icons.center_focus_strong, color: Colors.white),
+        child: Icon(Icons.center_focus_strong),
       ),
     );
   }
